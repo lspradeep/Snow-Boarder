@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         surfaceEffector2D.speed = 10f;
 
@@ -26,7 +26,9 @@ public class PlayerController : MonoBehaviour
         }else if (Input.GetKey(KeyCode.RightArrow))
         {
             rb.AddTorque(-torque);
-        } else if (Input.GetKey(KeyCode.UpArrow))
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             surfaceEffector2D.speed = 20f;
         }

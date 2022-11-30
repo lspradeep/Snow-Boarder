@@ -10,10 +10,12 @@ public class CrashDetector : MonoBehaviour
     public GameObject bloodParticles;
     private ParticleSystem effect;
     private bool showBlood = false;
+    private PlayerController playerController;
 
     void Start()
     {
         effect = bloodParticles.GetComponent<ParticleSystem>();
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     // Update is called once per frame
@@ -21,6 +23,8 @@ public class CrashDetector : MonoBehaviour
     {
         if (showBlood && !effect.isPlaying)
         {
+            playerController.enabled = false;
+            playerController.onDead();
             bloodParticles.GetComponent<Transform>().position = transform.position;
             bloodParticles.SetActive(true);
             effect.Play();

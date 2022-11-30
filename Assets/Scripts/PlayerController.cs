@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     Rigidbody2D rb;
     private SurfaceEffector2D surfaceEffector2D;
+    public ParticleSystem snowParticles;
     public float torque = 1f;
+    private float boost = 20f;
 
     void Start()
     {
@@ -15,10 +17,31 @@ public class PlayerController : MonoBehaviour
         surfaceEffector2D = FindObjectOfType<SurfaceEffector2D>();
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag.Equals("GroundTag"))
+        {
+            snowParticles.Play();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.tag.Equals("GroundTag"))
+        {
+            snowParticles.Stop();
+        }
+    }
+
     // Update is called once per frame
+    private void Update()
+    {
+        
+    }
+
     void FixedUpdate()
     {
-        surfaceEffector2D.speed = 10f;
+        boost = 10f;
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -30,7 +53,16 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            surfaceEffector2D.speed = 20f;
+            boost = 18f;
         }
+
+        surfaceEffector2D.speed = boost;
+
+    }
+
+    public void onDead()
+    {
+        boost = 0f;
+        surfaceEffector2D.speed = boost;
     }
 }
